@@ -36,6 +36,8 @@ module tb_sync_fifo;
     initial begin
         $dumpfile("tb_sync_fifo.vcd");
         $dumpvars(0, tb_sync_fifo);
+        $monitor("time=%0t wr_en=%b rd_en=%b data_in=%02h data_out=%02h full=%b empty=%b", 
+                 $time, wr_en, rd_en, data_in, data_out, full, empty);
 
         // Reset the FIFO
         rst_n = 0;
@@ -48,7 +50,7 @@ module tb_sync_fifo;
         for (i = 0; i < FIFO_DEPTH; i = i + 1) begin
             @(posedge clk);
             wr_en = 1;
-            data_in = i;
+            data_in = $random % 256; // Random data
             @(posedge clk);
             wr_en = 0;
             @(posedge clk);
@@ -63,9 +65,20 @@ module tb_sync_fifo;
             rd_en = 0;
             @(posedge clk);
             if (empty) $display("FIFO is empty at time %t", $time);
-            else $display("Read data: %d at time %t", data_out, $time);
+            else $display("Read data: %0h at time %t", data_out, $time);
         end
 
+        @(posedge clk);
+        wr_en = 1;
+        data_in = 8'hAA; // Write a specific value
+        @(posedge clk);
+        rd_en = 1;
+        data_in = 8'hBB; // Clear data_in
+        @(posedge clk);
+        wr_en = 0;
+        rd_en = 0;
+        @(posedge clk);
+        @(posedge clk);
         $display("Test complete.");
         $finish;
     end
