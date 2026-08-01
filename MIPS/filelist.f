@@ -1,0 +1,17 @@
+adder.sv
+alu.sv
+comb_block.sv
+concat.sv
+mux2x1.sv
+mux4x1.sv
+mux8x1.sv
+pc.sv
+ram.sv
+reg_file.sv
+scalable_reg.sv
+seq_controller.sv
+shift.sv
+sign_extend.sv
+state_reg.sv
+RISC_Processor.sv
+tb_RISC_Processor.sv

@@ -16,7 +16,8 @@ wire [31:0] EPC_OUT, Cause_OUT;
 wire [4:0]  Write_Addr;
 wire [3:0]  ALU_CTRL, Present_State;
 wire [2:0]  ALU_OP;
-wire [1:0]  Reg_Dest, MUX2_SEL, MUX3_SEL, MUX5_SEL, MUX10_SEL;
+wire [1:0]  Reg_Dest, MUX2_SEL, MUX3_SEL, MUX10_SEL;
+wire [2:0]  MUX5_SEL;
 wire        OF_OUT, NF_OUT, ZF_OUT, BF_OUT;
 wire        REG_WS, MUX1_SEL, MUX4_SEL, MUX6_SEL, MUX7_SEL, MUX9_SEL;
 wire        RAM_WE, RAM_RE, PC_LOAD, IR_LOAD, ALU_REG_LOAD;
@@ -47,7 +48,7 @@ Mux2x1 u_MUX1(.In0(Reg1), .In1(PC_OUT), .Sel(MUX1_SEL), .Out(MUX1_OUT));
 Mux4x1 u_MUX2(.In0(Reg2), .In1(32'd1), .In2(Sign_Ext_Out), .In3(32'b0), .Sel(MUX2_SEL), .Out(MUX2_OUT));
 Mux4x1 u_MUX3(.In0(Sign_Ext_B_Out), .In1(Zero_Ext_B_Out), .In2({{16{RAM_OUT[15]}}, RAM_OUT[15:0]}), .In3(RAM_OUT), .Sel(MUX3_SEL), .Out(MUX3_OUT));
 Mux4x1 u_MUX4(.In0(Reg2), .In1({24'b0, Reg2[7:0]}), .In2({16'b0, Reg2[15:0]}), .In3(32'b0), .Sel({MUX9_SEL, MUX4_SEL}), .Out(MUX4_OUT));
-Mux8x1 u_MUX5(.In0(ALU_REG_OUT), .In1(MUX3_OUT), .In2(32'b0), .In3(EPC_OUT), .In4(Cause_OUT), .In5(PC_OUT), .In6(32'b0), .In7(32'b0), .Sel({1'b0, MUX5_SEL}), .Out(MUX5_OUT));
+Mux8x1 u_MUX5(.In0(ALU_REG_OUT), .In1(MUX3_OUT), .In2(32'b0), .In3(EPC_OUT), .In4(Cause_OUT), .In5(PC_OUT), .In6(32'b0), .In7(32'b0), .Sel(MUX5_SEL), .Out(MUX5_OUT));
 Mux2x1 u_MUX6(.In0(PC_OUT), .In1(ALU_REG_OUT), .Sel(MUX6_SEL), .Out(MUX6_OUT));
 Mux4x1 u_MUX10(.In0(ALU_OUT_wire), .In1(ALU_REG_OUT), .In2(Concat_Out), .In3(Reg1), .Sel(MUX10_SEL), .Out(MUX10_OUT));
 
