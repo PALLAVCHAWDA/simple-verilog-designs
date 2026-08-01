@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 module tb_sync_fifo;
     parameter DATA_WIDTH = 8;
     parameter FIFO_DEPTH = 16;
@@ -6,8 +7,8 @@ module tb_sync_fifo;
     reg rst_n;
     reg wr_en;
     reg rd_en;
-    reg [DATA_WIDTH-1:0] data_in;
-    wire [DATA_WIDTH-1:0] data_out;
+    reg [DATA_WIDTH-1:0] wr_data;
+    wire [DATA_WIDTH-1:0] rd_data;
     wire full;
     wire empty;
     integer i;
@@ -15,70 +16,89 @@ module tb_sync_fifo;
     // Instantiate the sync_fifo
     sync_fifo #(
         .DATA_WIDTH(DATA_WIDTH),
-        .FIFO_DEPTH(FIFO_DEPTH)
+        .DEPTH(FIFO_DEPTH)
     ) uut (
         .clk(clk),
         .rst_n(rst_n),
         .wr_en(wr_en),
-        .rd_en(rd_en),
-        .data_in(data_in),
-        .data_out(data_out),
+        .wr_data(wr_data),
         .full(full),
+        .rd_en(rd_en),
+        .rd_data(rd_data),
         .empty(empty)
     );
 
     // Clock generation
     initial begin
         clk = 0;
-        forever #5 clk = ~clk; // 100MHz clock
+        // forever #5 clk = ~clk; // 100MHz clock
     end
 
+    always #5 clk = ~clk; // 100MHz clock
+
+        // Debug: trace internal FIFO signals every clock edge (hierarchical reference)
+    always @(posedge clk) begin
+        #1; // wait for nonblocking assignments to settle
+        $display("DBG t=%0t rd_en=%b empty=%b rd_valid=%b rd_ptr=%0d wr_ptr=%0d rd_addr=%0d rd_data=%0h",
+                $time, rd_en, empty, uut.rd_valid, uut.rd_ptr, uut.wr_ptr, uut.rd_addr, uut.rd_data);
+    end
     initial begin
         $dumpfile("tb_sync_fifo.vcd");
         $dumpvars(0, tb_sync_fifo);
-        $monitor("time=%0t wr_en=%b rd_en=%b data_in=%02h data_out=%02h full=%b empty=%b", 
-                 $time, wr_en, rd_en, data_in, data_out, full, empty);
+        // $monitor("time=%0t wr_en=%b rd_en=%b wr_data=%02h rd_data=%02h full=%b empty=%b",
+                //  $time, wr_en, rd_en, wr_data, rd_data, full, empty);
 
         // Reset the FIFO
         rst_n = 0;
         wr_en = 0;
         rd_en = 0;
-        data_in = 0;
+        wr_data = 0;
         #20 rst_n = 1;
 
+        // ---------------------------------------------------------------
         // Write data to the FIFO
+        // Fix: set wr_data BEFORE the clock edge that samples it, so the
+        // value written into memory on this edge is the one we intended.
+        // ---------------------------------------------------------------
+        wr_en = 1;
         for (i = 0; i < FIFO_DEPTH; i = i + 1) begin
-            @(posedge clk);
-            wr_en = 1;
-            data_in = $random % 256; // Random data
-            @(posedge clk);
-            wr_en = 0;
-            @(posedge clk);
+            wr_data = $random % 256; // set data first
+            @(posedge clk);          // this edge writes wr_data into mem
             if (full) $display("FIFO is full at time %t", $time);
         end
+        wr_en = 0;
 
+        // ---------------------------------------------------------------
         // Read data from the FIFO
-        for (i = 0; i < FIFO_DEPTH; i = i + 1) begin
-            @(posedge clk);
-            rd_en = 1;
-            @(posedge clk);
-            rd_en = 0;
-            @(posedge clk);
-            if (empty) $display("FIFO is empty at time %t", $time);
-            else $display("Read data: %0h at time %t", data_out, $time);
-        end
-
-        @(posedge clk);
-        wr_en = 1;
-        data_in = 8'hAA; // Write a specific value
-        @(posedge clk);
+        // Fix: add #1 after @(posedge clk) so the DUT's nonblocking
+        // assignment (rd_data <= mem[rd_addr]) has settled before we
+        // sample rd_data. Without this, we read the PREVIOUS rd_data.
         rd_en = 1;
-        data_in = 8'hBB; // Clear data_in
         @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        rd_en = 0;
+        // ---------------------------------------------------------------
+        // Simultaneous write + read check
+        // ---------------------------------------------------------------
+        wr_data = 8'hAA;
+        wr_en   = 1;
+        @(posedge clk);
+
+        wr_data = 8'hBB;
+        rd_en   = 1;
+        @(posedge clk);
+        #1;
+        // $display("Simultaneous R/W -> Read data: %0h at time %t", rd_data, $time);
+
         wr_en = 0;
         rd_en = 0;
         @(posedge clk);
         @(posedge clk);
+
         $display("Test complete.");
         $finish;
     end
