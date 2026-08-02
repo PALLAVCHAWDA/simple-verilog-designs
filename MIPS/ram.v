@@ -22,5 +22,6 @@ end
 always @ (posedge WS) begin
     mem[Addr] = WriteData;
 end
+// $display("RAM module instantiated");
 
 endmodule

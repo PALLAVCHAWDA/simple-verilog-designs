@@ -259,9 +259,7 @@ always@ (Present_State, Opcode) begin
                     Next_State = 3'b000;            //next state is FETCH
                     STATE = 6'b010100;              //output state number for debug only
                 end
-                else if ((Funct == 6'b100000) || (Funct == 6'b100001) || (Funct == 6'b100010) || (Funct == 6'b100011) || (Funct == 6'b100100) || (Funct == 6'b100101) ||
-                (Funct == 6'b100110) || (Funct == 6'b100111) || (Funct == 6'b000000) || (Funct == 6'b000100) || (Funct == 6'b000010) || (Funct == 6'b000110) || (Funct ==
-                6'b000001) || (Funct == 6'b000111) || (Funct == 6'b101001) || (Funct == 6'b101010)) begin  //state 4
+                else if ((Funct == 6'b100000) || (Funct == 6'b100001) || (Funct == 6'b100010) || (Funct == 6'b100011) || (Funct == 6'b100100) || (Funct == 6'b100101) || (Funct == 6'b100110) || (Funct == 6'b100111) || (Funct == 6'b000000) || (Funct == 6'b000100) || (Funct == 6'b000010) || (Funct == 6'b000110) || (Funct == 6'b000001) || (Funct == 6'b000111) || (Funct == 6'b101001) || (Funct == 6'b101010)) begin  //state 4
                     Reg_Dest = 2'b01;               //select Rd to be the Register File address
                     MEMtoREG = 3'b000;              //select the content of the ALU register to be written to the Register File
                     ALU_SEL1 = 1'b1;               //select Reg1 as the first ALU operand
@@ -279,8 +277,7 @@ always@ (Present_State, Opcode) begin
                     STATE = 6'b100110;              //output state number for debug only. code 38
                 end
             end
-            else if ((Opcode == OP_ADDi) || (Opcode == OP_LW) || (Opcode == OP_LBu) || (Opcode == OP_LB) || (Opcode == OP_LHu) || (Opcode == OP_LH) || (Opcode == OP_SB)
-            || (Opcode == OP_SH) || (Opcode == OP_SW)) begin
+            else if ((Opcode == OP_ADDi) || (Opcode == OP_LW) || (Opcode == OP_LBu) || (Opcode == OP_LB) || (Opcode == OP_LHu) || (Opcode == OP_LH) || (Opcode == OP_SB) || (Opcode == OP_SH) || (Opcode == OP_SW)) begin
                                                 //state 7 (various I-Type)
                 ALU_SEL1 = 1'b1;               //select Reg1 as the first ALU operand
                 ALU_SEL2 = 3'b010;             //select immediate value (sign extended I[15:0]) as the second ALU operand
@@ -301,8 +298,7 @@ always@ (Present_State, Opcode) begin
             end
         end
         3: begin
-            if ((Opcode == OP_ORi) || (Opcode == OP_XORi) || (Opcode == OP_ANDi) || (Opcode == OP_SLTi) || (Opcode == OP_ADDiu) || (Opcode == OP_SLTiu) || ((Opcode ==
-            OP_MFC0) && (Rd == 5'b01110)) || ((Opcode == OP_MFC0) && (Rd == 5'b01101))) begin //state 8
+            if ((Opcode == OP_ORi) || (Opcode == OP_XORi) || (Opcode == OP_ANDi) || (Opcode == OP_SLTi) || (Opcode == OP_ADDiu) || (Opcode == OP_SLTiu) || ((Opcode == OP_MFC0) && (Rd == 5'b01110)) || ((Opcode == OP_MFC0) && (Rd == 5'b01101))) begin //state 8
                 REG_WS = 1'b1;                  //enable writing to the Register File
                 Next_State = 3'b000;            //next state is FETCH
                 STATE = 6'b001000;              //output state number for debug only
@@ -344,8 +340,7 @@ always@ (Present_State, Opcode) begin
                     STATE = 6'b000101;              //output state number for debug only
                 end
             end
-            else if ((Opcode == OP_ADDi) || (Opcode == OP_LW) || (Opcode == OP_LBu) || (Opcode == OP_LB) || (Opcode == OP_LHu) || (Opcode == OP_LH) || (Opcode == OP_SB)
-                    || (Opcode == OP_SH) || (Opcode == OP_SW)) begin   //various I-Type
+            else if ((Opcode == OP_ADDi) || (Opcode == OP_LW) || (Opcode == OP_LBu) || (Opcode == OP_LB) || (Opcode == OP_LHu) || (Opcode == OP_LH) || (Opcode == OP_SB) || (Opcode == OP_SH) || (Opcode == OP_SW)) begin   //various I-Type
                 if ((Opcode == OP_ADDi) && (OF == 1'b0)) begin //state 8
                     REG_WS = 1'b1;                  //enable writing to the Register File
                     Next_State = 3'b000;            //next state is FETCH

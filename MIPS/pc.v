@@ -4,11 +4,11 @@
 
 module pc(Dout, RST_n, CLK, Din, LD);
 
-input clk, rst, LD;
+input CLK, RST_n, LD;
 input [31:0] Din;
 output reg [31:0] Dout;
 
-always @ (posedge CLK or posedge RST_n)
+always @ (posedge CLK or negedge RST_n)
 begin
     if (!RST_n)
         Dout <= 32'b0;

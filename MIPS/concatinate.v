@@ -10,6 +10,9 @@ output [31:0] OUT;
 
 reg [31:0] OUT;
 
-assign OUT = {CIN4, CIN26, 2'b00};
+always @ (CIN26 or CIN4) begin
+    OUT = {CIN4, CIN26, 2'b00};
+end
+// assign OUT = {CIN4, CIN26, 2'b00};
 
 endmodule

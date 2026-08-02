@@ -1,0 +1,98 @@
+@000        //ADD
+221820
+@001        //SUB
+602022
+@002        //SW
+AFDB0046
+@003        //LW
+8FC50046
+@004        //AND
+BE3024
+@005        //BEQ (No Branch)
+10A20000
+@006        //BEQ (Branch executed)
+1004000A
+@008        //OR
+1095025
+@009        //SH
+A7C80047
+@00A        //LB
+83CB0047
+@00B        //LBu
+93CC0047
+@00C        //XOR
+16C6826
+@00D        //SB
+A3C90048
+@00E        //JR
+E00008
+@028        //ANDi
+31AE53AA
+@029        //ORi
+35CF8585
+@02A        //XORi
+39F0FF00
+@02B        //LH
+87D10047
+@02C        //LHu
+97D20047
+@02D        //BLTZ (No Branch)
+4200004
+@02E        //BLTZ (Branch executed)
+6200004
+@02F        //ADDi
+20C70016
+@030        //BNE (No Branch)
+14040001
+@031        //BNE (Branch Executed)
+14E60001
+@036        //Jump to location 008
+8000002
+@03F        //NOR
+2329827
+@040        //ADDiu
+25F4F0F0
+@041        //SLTiu (No Set)
+2E950008
+@042        //SLTiu (Set)
+2EBS8001
+@043        //SLTi (No Set)
+29160008
+@044        //SLTi (Set)
+2AD68181
+@045        //BLEZ (No Branch)
+1AA00002
+@046        //BLEZ (Branch executed)
+1AC00002
+@04F        //SLL
+CBA00
+@050        //SLLV
+77C004
+@051        //SRL
+18C902
+@052        //SRLV
+39D006
+@053        //SRA
+8E403
+@054        //SRAV
+1CE807
+@055        //BGTZ (No Branch)
+1EC00002
+@056        //BGTZ (Branch Executed)
+1C400002
+@05F        //SLTu (No Set)
+22029
+@060        //SLTu (Set)
+822029
+@061        //SLT (No Set)
+8B282A
+@062        //SLT (Set)
+102282A
+@063        //JAL
+C00001E
+@078        //ADDu
+1423021
+@079        //SUBu
+1423823
+@07A        //JALR
+3E0A809

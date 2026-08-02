@@ -1,0 +1,20 @@
+@000        //value 2 stored in memory location 0
+00000002
+
+@001        //value 3 stored in memory location 1
+00000003
+
+@002        //value 1 stored in memory location 2
+00000001
+
+@008
+AAAAAAAA    //10101010....10
+
+@009
+55555555    //01010101....01
+
+@1B         //location 27
+00000032    //50
+
+@1E         //location 30
+0000001E    //30

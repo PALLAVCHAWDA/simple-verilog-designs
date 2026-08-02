@@ -8,9 +8,9 @@ input CLK, RST_n;
 input [2:0] Next_State;
 output reg [2:0] Present_State;
 
-always @ (posedge CLK or posedge RST_n)
+always @ (posedge CLK or negedge RST_n)
 begin
-    if (RST_n)
+    if (!RST_n)
         Present_State <= 3'b000;
     else
         Present_State <= Next_State;

@@ -30,12 +30,12 @@ module alu_cont(FUNCT, ALU_CTRL, OUT);
                     6'b101010: OUT = 4'b0111; // SLT
                     default:   OUT = 4'bxxxx; // Undefined operation
                 endcase
+            end
             3'b011: OUT = 4'b0111; // SLT
             3'b100: OUT = 4'b0000; // AND
             3'b101: OUT = 4'b0001; // OR
             3'b110: OUT = 4'b0011; // XOR
             default: OUT = 4'bxxxx; // Undefined operation
-            end
             endcase
     end
 

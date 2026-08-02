@@ -2,7 +2,7 @@
 // ALU Design Code
 // ============================================================
 
-module alu(ALU_CTRL, A, B, SHAMT, ALU_OUT, OF_OUT, NF_OUT, ZF_OUT, BF_OUT);
+module alu(A, B, ALU_CTRL, SHAMT, ALU_OUT, NF_OUT, ZF_OUT, OF_OUT, BF_OUT);
 
 input [3:0] ALU_CTRL;
 input [31:0] A, B;
