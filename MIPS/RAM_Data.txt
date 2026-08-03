@@ -55,7 +55,7 @@ E00008
 @041        //SLTiu (No Set)
 2E950008
 @042        //SLTiu (Set)
-2EBS8001
+2EB58001
 @043        //SLTi (No Set)
 29160008
 @044        //SLTi (Set)

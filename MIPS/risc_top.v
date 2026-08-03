@@ -1,4 +1,4 @@
-﻿module risc_top(CLK, RST_n);
+module risc_top(CLK, RST_n);
 //Port delcaration
     input CLK, RST_n;
 
@@ -7,11 +7,11 @@
 wire OF_OUT, BF_OUT, NF_OUT, ZF_OUT, PC_EN, IorD, MEM_OE, MEM_WS, IR_EN, REG_OE, REG_WS, SIGNEXT_SEL, ALU_SEL1, EPC_EN, CAUSE_SEL, CAUSE_EN, PCWrite_BEQ, PCWrite_BNE, PCWrite_BGTZ, PCWrite_BLTZ, PCWrite_BLEZ, PC_LOAD;
 wire [2:0] present_state, next_state, PC_SEL, REG_DATA_SEL, ALU_SEL2, ALU_OP, MEMtoREG;
 wire [1:0] MEM_DATA_SEL, Reg_Dest;
-wire [31:0] Inst, PC_OUT, PC_SEL_WIRE, ALU_REG_OUT, Addr, DATA, WriteData, Reg2_Out, EB1_Out, EW1_Out, EBZ1_Out, EB2_Out, EWZ1_Out, EW2_Out, DATA_WIRE, EPC_OUT,CAUSE_OUT, Reg_Write_Data, Reg1_Data, Reg2_Data, EW3_Out, EWZ2_Out, Immediate_Out, Immediate_SL, Reg1_Out, ALU_OPR1, ALU_OPR2, ALU_OUT, CAUSE_DATA, Inst_SL, CAT_OUT,NC;
+wire [31:0] Inst, PC_OUT, PC_SEL_WIRE, ALU_REG_OUT, Addr, DATA, WriteData, Reg2_Out, EB1_Out, EW1_Out, EBZ1_Out, EB2_Out, EWZ1_Out, EW2_Out, DATA_WIRE, EPC_OUT,CAUSE_OUT, Reg_Write_Data, Reg1_Data, Reg2_Data, EW3_Out, EWZ2_Out, Immediate_Out, Immediate_SL, Reg1_Out, ALU_OPR1, ALU_OPR2, ALU_OUT, CAUSE_DATA,CAT_OUT;
 wire [4:0] Dest_Addr;
 wire [3:0] ALU_CONTROL;
 wire [5:0] STATE;
-
+reg [31:0] NC = 32'b0; //No Connect. Used to fill unused inputs of MUXes
 
 // The netlist
 // initial $display("RISC Processor module instantiated");

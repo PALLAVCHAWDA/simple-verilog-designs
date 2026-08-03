@@ -59,7 +59,7 @@ wire [5:0] Funct;
 wire [4:0] Rd;
 wire OF, BF;
 
-always@ (Present_State, Opcode) begin
+always@ (*) begin
     case (Present_State)
         0: begin                            //state 0
 
